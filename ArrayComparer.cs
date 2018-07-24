@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Open.Memory
 {
@@ -14,6 +15,7 @@ namespace Open.Memory
 		public int Compare(T[] x, T[] y)
 			=> Sign * ArrayComparer.Compare(x, y);
 
+		// ReSharper disable once RedundantArgumentDefaultValue
 		public static readonly IComparer<T[]> Ascending = new ArrayComparer<T>(+1);
 		public static readonly IComparer<T[]> Descending = new ArrayComparer<T>(-1);
 	}
@@ -49,10 +51,15 @@ namespace Open.Memory
 			{
 				if (float.IsNaN(a))
 					return float.IsNaN(b) ? 0 : -1;
-				else if (float.IsNaN(b))
+
+				if (float.IsNaN(b))
 					return +1;
 
-				if (a == b || Math.Abs(a - b) <= float.Epsilon && a.ToString() == b.ToString()) return 0; // We hate precision issues. :(  1==1 dammit!
+				// ReSharper disable once CompareOfFloatsByEqualityOperator
+				if (a == b
+					|| Math.Abs(a - b) <= float.Epsilon
+						&& a.ToString(CultureInfo.InvariantCulture) == b.ToString(CultureInfo.InvariantCulture))
+					return 0; // We hate precision issues. :(  1==1 dammit!
 				return a.CompareTo(b);
 			});
 
@@ -61,10 +68,15 @@ namespace Open.Memory
 			{
 				if (double.IsNaN(a))
 					return double.IsNaN(b) ? 0 : -1;
-				else if (double.IsNaN(b))
+
+				if (double.IsNaN(b))
 					return +1;
 
-				if (a == b || Math.Abs(a - b) < 0.00000001 && a.ToString() == b.ToString()) return 0; // We hate precision issues. :(  1==1 dammit!
+				// ReSharper disable once CompareOfFloatsByEqualityOperator
+				if (a == b
+					|| Math.Abs(a - b) < 0.00000001
+						&& a.ToString(CultureInfo.InvariantCulture) == b.ToString(CultureInfo.InvariantCulture))
+					return 0; // We hate precision issues. :(  1==1 dammit!
 
 				return a.CompareTo(b);
 			});
