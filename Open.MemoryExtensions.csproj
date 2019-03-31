@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Open.Memory</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>electricessence</Authors>
     <Company>electricessence</Company>
     <Description>Useful set of extensions for working with Array, Memory, Span.  Primarily for ordering/sorting vectors.
@@ -16,6 +16,10 @@ Part of the "Open" set of libraries.</Description>
     <RepositoryUrl>https://github.com/electricessence/Open.MemoryExtensions/</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>dotnet, dotnet-core, dotnetcore, cs, span, readonlyspan, memory, readonlymemory, array, icomparable, icomparer</PackageTags>
+    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <FileVersion>2.0.1.0</FileVersion>
+    <Version>2.0.1</Version>
+    <PackageReleaseNotes>Removed StringBuilderExtensions and added SpanExtensions.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -27,7 +31,7 @@ Part of the "Open" set of libraries.</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Memory" Version="4.5.1" />
+    <PackageReference Include="System.Memory" Version="4.5.2" />
   </ItemGroup>
 
 </Project>
