@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0;netstandard2.1</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <RootNamespace>Open.Memory</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -11,15 +11,16 @@
 
 Part of the "Open" set of libraries.</Description>
     <Copyright>https://github.com/electricessence/Open.MemoryExtensions/blob/master/LICENSE</Copyright>
-    <PackageLicenseUrl>https://github.com/electricessence/Open.MemoryExtensions/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/electricessence/Open.MemoryExtensions/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/electricessence/Open.MemoryExtensions/</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>dotnet, dotnet-core, dotnetcore, cs, span, readonlyspan, memory, readonlymemory, array, icomparable, icomparer</PackageTags>
-    <AssemblyVersion>2.0.1.0</AssemblyVersion>
-    <FileVersion>2.0.1.0</FileVersion>
-    <Version>2.0.1</Version>
-    <PackageReleaseNotes>Removed StringBuilderExtensions and added SpanExtensions.</PackageReleaseNotes>
+    <AssemblyVersion>2.0.2.0</AssemblyVersion>
+    <FileVersion>2.0.2.0</FileVersion>
+    <Version>2.0.2</Version>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
