@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Open.Memory
 {
@@ -28,16 +29,16 @@ namespace Open.Memory
 		public static class Float
 		{
 			public static int Compare(in ReadOnlySpan<float> x, in ReadOnlySpan<float> y)
-				=> SpanComparer.Compare(x, y, (a, b) =>
-				{
-					if (float.IsNaN(a))
-						return float.IsNaN(b) ? 0 : -1;
-					else if (float.IsNaN(b))
-						return +1;
+			=> SpanComparer.Compare(x, y, (a, b) =>
+			{
+				if (float.IsNaN(a))
+					return float.IsNaN(b) ? 0 : -1;
+				else if (float.IsNaN(b))
+					return +1;
 
 					//if (a == b || Math.Abs(a - b) <= float.Epsilon && a.ToString() == b.ToString()) return 0; // We hate precision issues. :(  1==1 dammit!
 					return a.CompareTo(b);
-				});
+			});
 		}
 
 		public static class Double

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 
 namespace Open.Memory
 {
@@ -16,9 +15,30 @@ namespace Open.Memory
 		public int Compare(IReadOnlyCollection<T> x, IReadOnlyCollection<T> y)
 			=> Sign * CollectionComparer.Compare(x, y);
 
-		// ReSharper disable once RedundantArgumentDefaultValue
-		public static readonly IComparer<T[]> Ascending = new CollectionComparer<T>(+1);
-		public static readonly IComparer<T[]> Descending = new CollectionComparer<T>(-1);
+		public static IComparer<IReadOnlyCollection<T>> Ascending { get; } = new CollectionComparer<T>(+1);
+		public static IComparer<IReadOnlyCollection<T>> Descending { get; } = new CollectionComparer<T>(-1);
+	}
+
+	class CollectionFloatComparer : IComparer<IReadOnlyCollection<float>>
+	{
+		internal CollectionFloatComparer(int sign = +1)
+		{
+			Sign = sign;
+		}
+		public readonly int Sign;
+		public int Compare(IReadOnlyCollection<float> x, IReadOnlyCollection<float> y)
+			=> Sign * CollectionComparer.Compare(x, y);
+	}
+
+	class CollectionDoubleComparer : IComparer<IReadOnlyCollection<double>>
+	{
+		internal CollectionDoubleComparer(int sign = +1)
+		{
+			Sign = sign;
+		}
+		public readonly int Sign;
+		public int Compare(IReadOnlyCollection<double> x, IReadOnlyCollection<double> y)
+			=> Sign * CollectionComparer.Compare(x, y);
 	}
 
 	public static class CollectionComparer
@@ -76,39 +96,51 @@ namespace Open.Memory
 			where T : IComparable<T>
 			=> Compare(x, y, (a, b) => a.CompareTo(b));
 
-		public static int Compare(IReadOnlyCollection<float> x, IReadOnlyCollection<float> y)
-			=> Compare(x, y, (a, b) =>
-			{
-				if (float.IsNaN(a))
-					return float.IsNaN(b) ? 0 : -1;
+		public static class Float
+		{
+			public static IComparer<IReadOnlyCollection<float>> Ascending { get; } = new CollectionFloatComparer(+1);
+			public static IComparer<IReadOnlyCollection<float>> Descending { get; } = new CollectionFloatComparer(-1);
 
-				if (float.IsNaN(b))
-					return +1;
+			public static int Compare(IReadOnlyCollection<float> x, IReadOnlyCollection<float> y)
+				=> CollectionComparer.Compare(x, y, (a, b) =>
+				{
+					if (float.IsNaN(a))
+						return float.IsNaN(b) ? 0 : -1;
 
-				// ReSharper disable once CompareOfFloatsByEqualityOperator
-				if (a == b
-					|| Math.Abs(a - b) <= float.Epsilon
-						&& a.ToString(CultureInfo.InvariantCulture) == b.ToString(CultureInfo.InvariantCulture))
-					return 0; // We hate precision issues. :(  1==1 dammit!
-				return a.CompareTo(b);
-			});
+					if (float.IsNaN(b))
+						return +1;
 
-		public static int Compare(IReadOnlyCollection<double> x, IReadOnlyCollection<double> y)
-			=> Compare(x, y, (a, b) =>
-			{
-				if (double.IsNaN(a))
-					return double.IsNaN(b) ? 0 : -1;
+					// ReSharper disable once CompareOfFloatsByEqualityOperator
+					if (a == b
+							|| Math.Abs(a - b) <= float.Epsilon
+								&& a.ToString(CultureInfo.InvariantCulture) == b.ToString(CultureInfo.InvariantCulture))
+						return 0; // We hate precision issues. :(  1==1 dammit!
+					return a.CompareTo(b);
+				});
+		}
 
-				if (double.IsNaN(b))
-					return +1;
+		public static class Double
+		{
+			public static IComparer<IReadOnlyCollection<double>> Ascending { get; } = new CollectionDoubleComparer(+1);
+			public static IComparer<IReadOnlyCollection<double>> Descending { get; } = new CollectionDoubleComparer(-1);
 
-				// ReSharper disable once CompareOfFloatsByEqualityOperator
-				if (a == b
-					|| Math.Abs(a - b) < 0.00000001
-						&& a.ToString(CultureInfo.InvariantCulture) == b.ToString(CultureInfo.InvariantCulture))
-					return 0; // We hate precision issues. :(  1==1 dammit!
+			public static int Compare(IReadOnlyCollection<double> x, IReadOnlyCollection<double> y)
+				=> CollectionComparer.Compare(x, y, (a, b) =>
+				{
+					if (double.IsNaN(a))
+						return double.IsNaN(b) ? 0 : -1;
 
-				return a.CompareTo(b);
-			});
+					if (double.IsNaN(b))
+						return +1;
+
+					// ReSharper disable once CompareOfFloatsByEqualityOperator
+					if (a == b
+							|| Math.Abs(a - b) < 0.00000001
+								&& a.ToString(CultureInfo.InvariantCulture) == b.ToString(CultureInfo.InvariantCulture))
+						return 0; // We hate precision issues. :(  1==1 dammit!
+
+					return a.CompareTo(b);
+				});
+		}
 	}
 }
