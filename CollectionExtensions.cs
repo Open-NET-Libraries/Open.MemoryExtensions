@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Buffers;
+using System.Collections.Generic;
 
 namespace Open.Memory
 {
 
-	public static class ArrayExtensions
+	public static class CollectionExtensions
 	{
-		public static int CompareTo<T>(this T[] target, T[] other)
+		public static int CompareTo<T>(this IReadOnlyCollection<T> target, IReadOnlyCollection<T> other)
 			where T : IComparable<T>
-			=> ArrayComparer.Compare(target, other);
+			=> CollectionComparer.Compare(target, other);
 
 		public static int CompareTo<T>(this in ReadOnlyMemory<T> target, in ReadOnlyMemory<T> other)
 			where T : IComparable<T>
@@ -19,17 +20,17 @@ namespace Open.Memory
 			=> SpanComparer.Compare(target, other);
 
 
-		public static bool IsLessThan<T>(this T[] target, T[] other)
+		public static bool IsLessThan<T>(this IReadOnlyCollection<T> target, IReadOnlyCollection<T> other)
 			where T : IComparable<T>
-			=> ArrayComparer.Compare(target, other) < 0;
+			=> CollectionComparer.Compare(target, other) < 0;
 
-		public static bool IsEqual<T>(this T[] target, T[] other)
+		public static bool IsEqual<T>(this IReadOnlyCollection<T> target, IReadOnlyCollection<T> other)
 			where T : IComparable<T>
-			=> ArrayComparer.Compare(target, other) == 0;
+			=> CollectionComparer.Compare(target, other) == 0;
 
-		public static bool IsGreaterThan<T>(this T[] target, T[] other)
+		public static bool IsGreaterThan<T>(this IReadOnlyCollection<T> target, IReadOnlyCollection<T> other)
 			where T : IComparable<T>
-			=> ArrayComparer.Compare(target, other) > 0;
+			=> CollectionComparer.Compare(target, other) > 0;
 
 
 		public static bool IsLessThan<T>(this in ReadOnlySpan<T> target, in ReadOnlySpan<T> other)

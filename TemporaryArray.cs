@@ -7,7 +7,7 @@ namespace Open.Memory
 	public struct TemporaryArray<T> : IDisposable
 	{
 		const int MaxLength = 1024 * 1024;
-		ArrayPool<T> Pool { get; set; }
+		ArrayPool<T>? Pool;
 		public T[] Array { get; private set; }
 		public Span<T> Span
 			=> Array.Length == Length
@@ -15,6 +15,7 @@ namespace Open.Memory
 			: Array.AsSpan().Slice(0, Length);
 
 		public int Length { get; }
+
 		public bool ClearOnReturn { get; }
 
 		public TemporaryArray(ArrayPool<T> pool, int length, bool clearOnReturn = false)
@@ -30,7 +31,7 @@ namespace Open.Memory
 				Pool = null;
 				Array = System.Array.Empty<T>();
 			}
-			if (pool==null || length > MaxLength)
+			if (pool == null || length > MaxLength)
 			{
 				Pool = null;
 				Array = new T[length];
@@ -45,7 +46,7 @@ namespace Open.Memory
 		public void Dispose()
 		{
 			var a = Array;
-			Array = null;
+			Array = null!;
 			Pool?.Return(a, true);
 			Pool = null;
 		}
@@ -67,4 +68,5 @@ namespace Open.Memory
 			return new TemporaryArray<T>(pool, (int)length, clearOnReturn);
 		}
 	}
+
 }

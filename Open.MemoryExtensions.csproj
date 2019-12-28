@@ -1,38 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-    <RootNamespace>Open.Memory</RootNamespace>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Authors>electricessence</Authors>
-    <Company>electricessence</Company>
-    <Description>Useful set of extensions for working with Array, Memory, Span.  Primarily for ordering/sorting vectors.
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+		<RootNamespace>Open.Memory</RootNamespace>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<Authors>electricessence</Authors>
+		<Company>electricessence</Company>
+		<Description>
+			Useful set of extensions for working with Array, Memory, Span.  Primarily for ordering/sorting vectors.
 
-Part of the "Open" set of libraries.</Description>
-    <Copyright>https://github.com/electricessence/Open.MemoryExtensions/blob/master/LICENSE</Copyright>
-    <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/electricessence/Open.MemoryExtensions/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/electricessence/Open.MemoryExtensions/</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>dotnet, dotnet-core, dotnetcore, cs, span, readonlyspan, memory, readonlymemory, array, icomparable, icomparer</PackageTags>
-    <AssemblyVersion>2.1.0.0</AssemblyVersion>
-    <FileVersion>2.1.0.0</FileVersion>
-    <Version>2.1.0</Version>
-    <PackageReleaseNotes>Added disposable struct TemporaryArray&lt;T&gt; for use with ArrayPools.</PackageReleaseNotes>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-  </PropertyGroup>
+			Part of the "Open" set of libraries.
+		</Description>
+		<Copyright>https://github.com/electricessence/Open.MemoryExtensions/blob/master/LICENSE</Copyright>
+		<PackageLicenseUrl></PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/electricessence/Open.MemoryExtensions/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/electricessence/Open.MemoryExtensions/</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>dotnet, dotnet-core, dotnetcore, cs, span, readonlyspan, memory, readonlymemory, array, icomparable, icomparer</PackageTags>
+		<Version>2.3.0</Version>
+		<PackageReleaseNotes>Added disposable struct TemporaryArray&lt;T&gt; for use with ArrayPools.</PackageReleaseNotes>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <PackageReference Include="System.Memory" Version="4.5.3" />
-  </ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+		<PackageReference Include="System.Memory" Version="4.5.3" />
+	</ItemGroup>
 
 </Project>
