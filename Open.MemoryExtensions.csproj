@@ -18,7 +18,7 @@
 		<RepositoryUrl>https://github.com/electricessence/Open.MemoryExtensions/</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>dotnet, dotnet-core, dotnetcore, cs, span, readonlyspan, memory, readonlymemory, array, icomparable, icomparer</PackageTags>
-		<Version>2.3.2</Version>
+		<Version>2.4.1</Version>
 		<PackageReleaseNotes>Added disposable struct TemporaryArray&lt;T&gt; for use with ArrayPools.</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Nullable>enable</Nullable>
