@@ -18,7 +18,8 @@ namespace Open.Memory
 		public T this[int index]
 		{
 			get => Array[index];
-			set {
+			set
+			{
 				if (index < Length) Array[index] = value;
 				else throw new IndexOutOfRangeException();
 			}
