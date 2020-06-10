@@ -1,6 +1,4 @@
 using Open.Memory;
-using System;
-using System.Buffers;
 using Xunit;
 
 namespace Open.MemoryExtensions.Tests
