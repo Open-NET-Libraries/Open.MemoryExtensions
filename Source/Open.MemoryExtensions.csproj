@@ -18,7 +18,7 @@
 		<RepositoryUrl>https://github.com/electricessence/Open.MemoryExtensions/</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>dotnet, dotnet-core, dotnetcore, cs, span, readonlyspan, memory, readonlymemory, array, icomparable, icomparer</PackageTags>
-		<Version>2.5.1</Version>
+		<Version>2.5.2</Version>
 		<PackageReleaseNotes></PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Nullable>enable</Nullable>
@@ -34,6 +34,12 @@
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
 		<PackageReference Include="System.Memory" Version="4.5.3" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Compile Remove="Tests\**" />
+	  <EmbeddedResource Remove="Tests\**" />
+	  <None Remove="Tests\**" />
 	</ItemGroup>
 
 </Project>

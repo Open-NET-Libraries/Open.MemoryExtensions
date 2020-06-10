@@ -74,7 +74,7 @@ namespace Open.Memory
 			if (minimumLength < 0)
 				throw new ArgumentOutOfRangeException(nameof(minimumLength));
 
-			return new TemporaryArray<T>(pool, minimumLength, clearArrayOnReturn);
+			return TemporaryArray.Create(pool, minimumLength, clearArrayOnReturn);
 		}
 
 		/// <summary>

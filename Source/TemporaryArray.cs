@@ -2,14 +2,18 @@
 using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 namespace Open.Memory
 {
 
-	public struct TemporaryArray<T> : IDisposable, IList<T>, IReadOnlyList<T>
+	public class TemporaryArray<T> : IDisposable, IList<T>, IReadOnlyList<T>
 	{
-		ArrayPool<T>? Pool;
-		public T[] Array { get; private set; }
+		ArrayPool<T>? _pool;
+		T[]? _array;
+
+		public T[] Array => _array ?? throw new ObjectDisposedException(nameof(TemporaryArray));
+
 		public Span<T> Span
 			=> Array.Length == Length
 			? Array.AsSpan()
@@ -37,37 +41,24 @@ namespace Open.Memory
 
 		public int Capacity => Array.Length;
 
-		internal TemporaryArray(ArrayPool<T> pool, int length, bool clearOnReturn = false)
+		internal TemporaryArray(ArrayPool<T> pool, T[] array, int length, bool clearOnReturn = false)
 		{
-			if (length < 0)
-				throw new ArgumentOutOfRangeException(nameof(length));
+			if (length < 0) throw new ArgumentOutOfRangeException(nameof(length));
+			_array = array ?? throw new ArgumentNullException(nameof(array));
+			Contract.EndContractBlock();
 
+			_pool = pool;
 			Length = length;
 			ClearOnReturn = clearOnReturn;
-
-			if (length == 0)
-			{
-				Pool = null;
-				Array = System.Array.Empty<T>();
-			}
-			else if (pool == null)
-			{
-				Pool = null;
-				Array = new T[length];
-			}
-			else
-			{
-				Pool = pool;
-				Array = pool.Rent(length);
-			}
 		}
 
 		public void Dispose()
 		{
-			var a = Array;
-			Array = null!;
-			Pool?.Return(a, true);
-			Pool = null;
+			var p = _pool;
+			_pool = null;
+			var a = _array;
+			_array = null;
+			p?.Return(a, true);
 		}
 
 		public IEnumerator<T> GetEnumerator()
@@ -117,9 +108,12 @@ namespace Open.Memory
 
 	public static class TemporaryArray
 	{
+		static TemporaryArray<T> CreateInternal<T>(ArrayPool<T> pool, int length, bool clearOnReturn)
+			=> new TemporaryArray<T>(pool, pool?.Rent(length) ?? new T[length], length, clearOnReturn);
+
 		public static TemporaryArray<T> Create<T>(ArrayPool<T> pool, int length, bool clearOnReturn = false)
 			where T : struct
-			=> new TemporaryArray<T>(pool, length, clearOnReturn);
+			=> CreateInternal(pool, length, clearOnReturn);
 
 		public static TemporaryArray<T> Create<T>(ArrayPool<T> pool, long length, bool clearOnReturn = false)
 			where T : struct
@@ -127,12 +121,12 @@ namespace Open.Memory
 			if (length < 0 || length > int.MaxValue)
 				throw new ArgumentOutOfRangeException(nameof(length), length, "Must be at least zero and less than maximum 32 bit signed integer.");
 
-			return new TemporaryArray<T>(pool, (int)length, clearOnReturn);
+			return CreateInternal(pool, (int)length, clearOnReturn);
 		}
 
 		public static TemporaryArray<T> Create<T>(ArrayPool<T> pool, int length)
 			where T : class
-			=> new TemporaryArray<T>(pool, length, true);
+			=> CreateInternal(pool, length, true);
 
 		public static TemporaryArray<T> Create<T>(ArrayPool<T> pool, long length)
 			where T : class
@@ -140,7 +134,19 @@ namespace Open.Memory
 			if (length < 0 || length > int.MaxValue)
 				throw new ArgumentOutOfRangeException(nameof(length), length, "Must be at least zero and less than maximum 32 bit signed integer.");
 
-			return new TemporaryArray<T>(pool, (int)length, true);
+			return CreateInternal(pool, (int)length, true);
+		}
+
+
+		public static TemporaryArray<T> Create<T>(int length)
+			=> CreateInternal(ArrayPool<T>.Shared, length, true);
+
+		public static TemporaryArray<T> Create<T>(long length)
+		{
+			if (length < 0 || length > int.MaxValue)
+				throw new ArgumentOutOfRangeException(nameof(length), length, "Must be at least zero and less than maximum 32 bit signed integer.");
+
+			return CreateInternal(ArrayPool<T>.Shared, (int)length, true);
 		}
 	}
 
