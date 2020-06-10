@@ -29,13 +29,13 @@ namespace Open.Memory
 
 		public bool ClearOnReturn { get; }
 
-		int IReadOnlyCollection<T>.Count => Length;
-
 		bool ICollection<T>.IsReadOnly => false;
 
-		public int Count => ((IList<T>)Array).Count;
+		public int Count => Length;
+		int IReadOnlyCollection<T>.Count => Length;
+		int ICollection<T>.Count => Length;
 
-		int ICollection<T>.Count => throw new NotImplementedException();
+		public int Capacity => Array.Length;
 
 		internal TemporaryArray(ArrayPool<T> pool, int length, bool clearOnReturn = false)
 		{
@@ -50,7 +50,7 @@ namespace Open.Memory
 				Pool = null;
 				Array = System.Array.Empty<T>();
 			}
-			if (pool == null)
+			else if (pool == null)
 			{
 				Pool = null;
 				Array = new T[length];
