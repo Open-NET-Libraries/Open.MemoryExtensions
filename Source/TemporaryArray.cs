@@ -7,11 +7,12 @@ using System.Diagnostics.Contracts;
 namespace Open.Memory
 {
 
-	public class TemporaryArray<T> : IDisposable, IList<T>, IReadOnlyList<T>
+	public sealed class TemporaryArray<T> : IDisposable, IList<T>, IReadOnlyList<T>
 	{
 		ArrayPool<T>? _pool;
 		T[]? _array;
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "Exact intention is to expose underlying array.")]
 		public T[] Array => _array ?? throw new ObjectDisposedException(nameof(TemporaryArray));
 
 		public Span<T> Span
@@ -75,6 +76,8 @@ namespace Open.Memory
 
 		public void CopyTo(T[] array, int arrayIndex)
 		{
+			if (array is null) throw new ArgumentNullException(nameof(array));
+
 			var iLimit = Length;
 			var aLimit = array.Length;
 			var i = 0;
@@ -103,7 +106,8 @@ namespace Open.Memory
 		bool ICollection<T>.Remove(T item) => throw new NotImplementedException();
 		void ICollection<T>.Clear() => throw new NotImplementedException();
 
-		public static implicit operator Span<T>(TemporaryArray<T> source) => source.Span;
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2225:Operator overloads have named alternates", Justification = ".Span is exposed.")]
+		public static implicit operator Span<T>(TemporaryArray<T> source) => source is null ? Span<T>.Empty : source.Span;
 	}
 
 	public static class TemporaryArray

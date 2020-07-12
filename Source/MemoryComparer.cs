@@ -10,7 +10,7 @@ namespace Open.Memory
 		{
 			Sign = sign;
 		}
-		public readonly int Sign;
+		public int Sign { get; }
 		public int Compare(ReadOnlyMemory<T> x, ReadOnlyMemory<T> y)
 			=> Sign * MemoryComparer.Compare(x, y);
 
@@ -25,7 +25,8 @@ namespace Open.Memory
 		{
 			Sign = sign;
 		}
-		public readonly int Sign;
+		public int Sign { get; }
+
 		public int Compare(ReadOnlyMemory<float> x, ReadOnlyMemory<float> y)
 			=> Sign * MemoryComparer.Compare(x, y);
 	}
@@ -36,11 +37,14 @@ namespace Open.Memory
 		{
 			Sign = sign;
 		}
-		public readonly int Sign;
+		public int Sign { get; }
+
 		public int Compare(ReadOnlyMemory<double> x, ReadOnlyMemory<double> y)
 			=> Sign * MemoryComparer.Compare(x, y);
 	}
 
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Ok as a subclass.")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Ok as a subclass.")]
 	public static class MemoryComparer
 	{
 		public static int Compare<T>(in ReadOnlyMemory<T> target, in ReadOnlyMemory<T> other)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Open.Memory
 {
+
 	public class CollectionComparer<T> : IComparer<IReadOnlyCollection<T>>
 		where T : IComparable<T>
 	{
@@ -10,7 +11,7 @@ namespace Open.Memory
 		{
 			Sign = sign;
 		}
-		public readonly int Sign;
+		public int Sign { get; }
 		public int Compare(IReadOnlyCollection<T> x, IReadOnlyCollection<T> y)
 			=> Sign * CollectionComparer.Compare(x, y);
 
@@ -24,7 +25,7 @@ namespace Open.Memory
 		{
 			Sign = sign;
 		}
-		public readonly int Sign;
+		public int Sign { get; }
 		public int Compare(IReadOnlyCollection<float> x, IReadOnlyCollection<float> y)
 			=> Sign * CollectionComparer.Compare(x, y);
 	}
@@ -35,11 +36,13 @@ namespace Open.Memory
 		{
 			Sign = sign;
 		}
-		public readonly int Sign;
+		public int Sign { get; }
 		public int Compare(IReadOnlyCollection<double> x, IReadOnlyCollection<double> y)
 			=> Sign * CollectionComparer.Compare(x, y);
 	}
 
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Ok as a subclass.")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Ok as a subclass.")]
 	public static class CollectionComparer
 	{
 		public static int Compare<T>(IReadOnlyCollection<T> x, IReadOnlyCollection<T> y, Func<T, T, int> comparison)
@@ -91,6 +94,7 @@ namespace Open.Memory
 		public static int Compare<T>(IReadOnlyCollection<T> x, IReadOnlyCollection<T> y)
 			where T : IComparable<T>
 			=> Compare(x, y, Comparisons.Compare);
+
 		public static class Float
 		{
 			public static IComparer<IReadOnlyCollection<float>> Ascending { get; } = new CollectionFloatComparer(+1);

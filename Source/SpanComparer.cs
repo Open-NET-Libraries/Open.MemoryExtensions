@@ -2,6 +2,8 @@
 
 namespace Open.Memory
 {
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Ok as a subclass.")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Ok as a subclass.")]
 	public static class SpanComparer
 	{
 		public static int Compare<T>(in ReadOnlySpan<T> x, in ReadOnlySpan<T> y, Func<T, T, int> comparer)
