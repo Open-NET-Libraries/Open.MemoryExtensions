@@ -16,7 +16,7 @@ Part of the "Open" set of libraries.
 		<PackageProjectUrl>https://github.com/Open-NET-Libraries/Open.MemoryExtensions/</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Open-NET-Libraries/Open.MemoryExtensions/</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<Version>2.7.0</Version>
+		<Version>2.7.1</Version>
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -24,6 +24,10 @@ Part of the "Open" set of libraries.
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageIcon>logo.png</PackageIcon>
 	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+	</ItemGroup>	
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
 		<PackageReference Include="System.Memory" Version="4.5.4" />
